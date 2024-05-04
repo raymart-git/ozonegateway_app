@@ -16,7 +16,8 @@
 
 */
 
-import React from "react";
+import { useState, React} from "react";
+import loginService from '../../service/api/login.service';
 
 // Chakra imports
 import {
@@ -44,6 +45,31 @@ import GradientBorder from "components/GradientBorder/GradientBorder";
 import signUpImage from "assets/img/signUpImage.png";
 
 function SignUp() {
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [registerMsg, setRegisterMsg] = useState('');
+  
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleRegistration = async () => {
+    try {
+      const response = await loginService.register(username, password);
+      console.log('Registration Successfully:', response.data);
+      setRegisterMsg('Registration Successfully');
+    } catch (error) {
+      console.error('Register error:', error);
+      setRegisterMsg('Registration Failed');
+    }
+  };
+
+
   const titleColor = "white";
   const textColor = "gray.400";
 
@@ -193,36 +219,7 @@ function SignUp() {
                   ms='4px'
                   fontSize='sm'
                   fontWeight='normal'>
-                  Name
-                </FormLabel>
-
-                <GradientBorder
-                  mb='24px'
-                  h='50px'
-                  w={{ base: "100%", lg: "fit-content" }}
-                  borderRadius='20px'>
-                  <Input
-                    color={titleColor}
-                    bg={{
-                      base: "rgb(19,21,54)",
-                    }}
-                    border='transparent'
-                    borderRadius='20px'
-                    fontSize='sm'
-                    size='lg'
-                    w={{ base: "100%", md: "346px" }}
-                    maxW='100%'
-                    h='46px'
-                    type='text'
-                    placeholder='Your name'
-                  />
-                </GradientBorder>
-                <FormLabel
-                  color={titleColor}
-                  ms='4px'
-                  fontSize='sm'
-                  fontWeight='normal'>
-                  Email
+                  UserName
                 </FormLabel>
                 <GradientBorder
                   mb='24px'
@@ -241,8 +238,9 @@ function SignUp() {
                     w={{ base: "100%", md: "346px" }}
                     maxW='100%'
                     h='46px'
-                    type='email'
-                    placeholder='Your email address'
+                    value={username}
+                    onChange={handleUsernameChange}
+                    placeholder='Your username'
                   />
                 </GradientBorder>
                 <FormLabel
@@ -270,6 +268,8 @@ function SignUp() {
                     maxW='100%'
                     h='46px'
                     type='password'
+                    value={password}
+                    onChange={handlePasswordChange}
                     placeholder='Your password'
                   />
                 </GradientBorder>
@@ -285,6 +285,13 @@ function SignUp() {
                     fontWeight='normal'>
                     Remember me
                   </FormLabel>
+                  <FormLabel
+                    mb='0'
+                    ms='1'
+                    fontWeight='bold'
+                    color='white'>
+                    [ {registerMsg} ]
+                  </FormLabel>
                 </FormControl>
                 <Button
                   variant='brand'
@@ -294,7 +301,8 @@ function SignUp() {
                   maxW='350px'
                   h='45'
                   mb='20px'
-                  mt='20px'>
+                  mt='20px'
+                  onClick={handleRegistration}>
                   SIGN UP
                 </Button>
               </FormControl>

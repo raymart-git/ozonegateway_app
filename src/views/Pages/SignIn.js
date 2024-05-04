@@ -16,7 +16,9 @@
 
 */
 
-import React from "react";
+import { useState, React} from "react";
+import loginService from '../../service/api/login.service';
+
 // Chakra imports
 import {
   Box,
@@ -40,10 +42,38 @@ import AuthFooter from "components/Footer/AuthFooter";
 import GradientBorder from "components/GradientBorder/GradientBorder";
 
 function SignIn() {
+
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginMsg, setLoginMsg] = useState('');
+  
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await loginService.login(username, password);
+      console.log('User logged in:', response.data);
+      
+      setLoginMsg('Login Successfully');
+    } catch (error) {
+      console.error('Login error:', error);
+
+      setLoginMsg('Login Failed');
+    }
+  };
+
+
   const titleColor = "white";
   const textColor = "gray.400";
 
   return (
+    
     <Flex position='relative'>
       <Flex
         minH='100vh'
@@ -77,7 +107,7 @@ function SignIn() {
               color={textColor}
               fontWeight='bold'
               fontSize='14px'>
-              Enter your email and password to sign in
+              Enter your username and password to sign in
             </Text>
             <FormControl>
               <FormLabel
@@ -85,7 +115,7 @@ function SignIn() {
                 fontSize='sm'
                 fontWeight='normal'
                 color='white'>
-                Email
+                UserName
               </FormLabel>
               <GradientBorder
                 mb='24px'
@@ -101,7 +131,9 @@ function SignIn() {
                   w={{ base: "100%", md: "346px" }}
                   maxW='100%'
                   h='46px'
-                  placeholder='Your email adress'
+                  value={username}
+                  onChange={handleUsernameChange}
+                  placeholder='Your username'
                 />
               </GradientBorder>
             </FormControl>
@@ -127,6 +159,8 @@ function SignIn() {
                   w={{ base: "100%", md: "346px" }}
                   maxW='100%'
                   type='password'
+                  value={password}
+                  onChange={handlePasswordChange}
                   placeholder='Your password'
                 />
               </GradientBorder>
@@ -143,6 +177,14 @@ function SignIn() {
                 color='white'>
                 Remember me
               </FormLabel>
+              <FormLabel
+                htmlFor='remember-login'
+                mb='0'
+                ms='1'
+                fontWeight='bold'
+                color='white'>
+                [ {loginMsg} ]
+              </FormLabel>
             </FormControl>
             <Button
               variant='brand'
@@ -152,7 +194,8 @@ function SignIn() {
               maxW='350px'
               h='45'
               mb='20px'
-              mt='20px'>
+              mt='20px'
+              onClick={handleLogin}>
               SIGN IN
             </Button>
 
