@@ -84,7 +84,7 @@ function SignUp() {
       console.log('Registration Successfully:', response.data);
       
       setRegisterMsg('Registration Successfully');
-      window.location.href = "/#/auth/sign-in"; // redirect to login page when registration is successful
+      window.location.href = "/#/auth/signin"; // redirect to login page when registration is successful
 
     } catch (error) {
       console.error('Register error:', error);

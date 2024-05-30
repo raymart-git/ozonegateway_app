@@ -16,7 +16,7 @@
 
 */
 
-import { useState, useEffect, React} from "react";
+import { useState, useEffect, React } from "react";
 import loginService from '../../service/api/login.service';
 import siteService from '../../service/api/site.service';
 import Dropdown from "components/DropDown/LoginDropDown";
@@ -78,7 +78,7 @@ function SignIn() {
   const handleLogin = async () => {
     try {
       const response = await loginService.login(username, password, siteSelectedValue);
-      console.log('User logged in:', response.data);
+      sessionStorage.setItem('loggedUser', JSON.stringify(response.data.user));
       
       setLoginMsg('Login Successfully');
       window.location.href = "/#/admin/dashboard"; // redirect to main page when login is successful
