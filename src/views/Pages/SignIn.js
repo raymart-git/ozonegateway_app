@@ -78,7 +78,6 @@ function SignIn() {
   const handleLogin = async () => {
     try {
       const response = await loginService.login(username, password, siteSelectedValue);
-      sessionStorage.setItem('loggedUser', JSON.stringify(response.data.user));
       
       setLoginMsg('Login Successfully');
       window.location.href = "/#/admin/dashboard"; // redirect to main page when login is successful

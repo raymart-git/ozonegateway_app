@@ -24,6 +24,7 @@ import RTLPage from "views/RTL/RTLPage.js";
 import Profile from "views/Dashboard/Profile.js";
 import SignIn from "views/Pages/SignIn.js";
 import SignUp from "views/Pages/SignUp.js";
+import SignOut from "views/Pages/SignOut.js";
 
 import {
   HomeIcon,
@@ -89,6 +90,14 @@ var dashRoutes = [
         rtlName: "لوحة القيادة",
         icon: <DocumentIcon color='inherit' />,
         component: SignIn,
+        layout: "/auth",
+      },
+      {
+        path: "/signout",
+        name: "Sign Out",
+        rtlName: "لوحة القيادة",
+        icon: <DocumentIcon color='inherit' />,
+        component: SignOut,
         layout: "/auth",
       },
       {

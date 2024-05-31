@@ -23,13 +23,14 @@ import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import AuthLayout from "layouts/Auth.js";
 import AdminLayout from "layouts/Admin.js";
 import RTLLayout from "layouts/RTL.js";
+import PrivateRoute from "components/Auth/PrivateRoute"; // Adjust the path as needed
 
 ReactDOM.render(
   <HashRouter>
     <Switch>
       <Route path={`/auth`} component={AuthLayout} />
-      <Route path={`/admin`} component={AdminLayout} />
-      <Route path={`/rtl`} component={RTLLayout} />
+      <PrivateRoute path={`/admin`} component={AdminLayout} />
+      <PrivateRoute path={`/rtl`} component={RTLLayout} />
       <Redirect from={`/`} to='/auth/signin' />
     </Switch>
   </HashRouter>,
