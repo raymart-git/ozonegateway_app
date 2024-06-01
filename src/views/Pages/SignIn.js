@@ -16,7 +16,7 @@
 
 */
 
-import { useState, useEffect, React } from "react";
+import { useState, useEffect, useContext, React } from "react";
 import loginService from '../../service/api/login.service';
 import siteService from '../../service/api/site.service';
 import Dropdown from "components/DropDown/LoginDropDown";
@@ -42,6 +42,7 @@ import signInImage from "assets/img/signInImage.png";
 // Custom Components
 import AuthFooter from "components/Footer/AuthFooter";
 import GradientBorder from "components/GradientBorder/GradientBorder";
+import { UserContext } from '../../context/UserContext';
 
 function SignIn() {
 
@@ -51,6 +52,9 @@ function SignIn() {
 
   const [sites, setSites] = useState([]);
   const [siteSelectedValue, setSiteSelectedValue] = useState('');
+
+  const { setLoggedUsername } = useContext(UserContext);
+
 
   useEffect(() => {
 
@@ -78,10 +82,9 @@ function SignIn() {
   const handleLogin = async () => {
     try {
       const response = await loginService.login(username, password, siteSelectedValue);
-      
+      setLoggedUsername(username); // update container data
       setLoginMsg('Login Successfully');
       window.location.href = "/#/admin/dashboard"; // redirect to main page when login is successful
-
     } catch (error) {
       console.error('Login error:', error);
       setLoginMsg('Login Failed');
