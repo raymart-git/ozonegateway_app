@@ -17,6 +17,13 @@ const login = async (username, password, site) => {
                   });
   
   if (response.data.token) {
+    
+    // get site of loggedUser
+    const siteResponse = await axios.get(`${config.API_URL}sites/${response.data.user.site}`);
+    if (siteResponse) {
+      response.data.user.sitename = siteResponse.data.sitename;
+    }
+
     const tokenData = {
                         token: response.data.token,
                         expiry: Date.now() + (3600 * 1000) // Assuming token expires in 1 hour
@@ -24,7 +31,6 @@ const login = async (username, password, site) => {
     sessionStorage.setItem('token', JSON.stringify(tokenData));
     sessionStorage.setItem('loggedUser', JSON.stringify(response.data.user));
   }
-  
 };
 
 const logout = () => {

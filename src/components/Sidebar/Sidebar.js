@@ -185,7 +185,7 @@ function Sidebar(props) {
   };
   const { logoText, routes, sidebarVariant } = props;
 
-  const { loggedUserName } = useContext(UserContext);
+  const { loggedUsername, loggedSitename, setLoggedSitename } = useContext(UserContext);
   const [filteredRoutes, setFilteredRoutes] = React.useState(routes);
 
   var links = <>{createLinks(filteredRoutes)}</>;
@@ -212,7 +212,7 @@ function Sidebar(props) {
           bg='linear-gradient(97.89deg, #FFFFFF 70.67%, rgba(117, 122, 140, 0) 108.55%)'
           bgClip='text'>
           <Text fontSize='sm' letterSpacing='3px' mt='3px' color='transparent'>
-            {logoText}
+            {loggedSitename}
           </Text>
         </Box>
       </Link>
@@ -228,8 +228,11 @@ function Sidebar(props) {
         const filteredRoutesData = routes.filter(route => route.name != "Admin Panel");
         setFilteredRoutes(filteredRoutesData);
       }
+      if (userData.sitename) {
+        setLoggedSitename(userData.sitename);
+      }
     }
-  }, [loggedUserName]);
+  }, [loggedUsername]);
 
   // SIDEBAR
   return (
