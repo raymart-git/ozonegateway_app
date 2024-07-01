@@ -20,9 +20,9 @@ import { SimmmpleLogoWhite } from "components/Icons/Icons";
 import { Separator } from "components/Separator/Separator";
 import { SidebarHelp } from "components/Sidebar/SidebarHelp";
 import PropTypes from "prop-types";
-import React from "react";
+import React, {useEffect,useContext} from "react";
 import { NavLink, useLocation } from "react-router-dom";
-
+import { UserContext } from '../../context/UserContext';
 // FUNCTIONS
 
 function Sidebar(props) {
@@ -185,7 +185,10 @@ function Sidebar(props) {
   };
   const { logoText, routes, sidebarVariant } = props;
 
-  var links = <>{createLinks(routes)}</>;
+  const { loggedUsername, loggedSitename, setLoggedSitename } = useContext(UserContext);
+  const [filteredRoutes, setFilteredRoutes] = React.useState(routes);
+
+  var links = <>{createLinks(filteredRoutes)}</>;
   //  BRAND
   //  Chakra Color Mode
   let sidebarBg =
@@ -209,13 +212,27 @@ function Sidebar(props) {
           bg='linear-gradient(97.89deg, #FFFFFF 70.67%, rgba(117, 122, 140, 0) 108.55%)'
           bgClip='text'>
           <Text fontSize='sm' letterSpacing='3px' mt='3px' color='transparent'>
-            {logoText}
+            {loggedSitename}
           </Text>
         </Box>
       </Link>
       <Separator></Separator>
     </Box>
   );
+
+  useEffect(() => {
+    const userData = JSON.parse(sessionStorage.getItem('loggedUser'));
+    if (userData) {
+      if (userData.role == 2) {
+        // Hide Admin Panel Link From Guest
+        const filteredRoutesData = routes.filter(route => route.name != "Admin Panel");
+        setFilteredRoutes(filteredRoutesData);
+      }
+      if (userData.sitename) {
+        setLoggedSitename(userData.sitename);
+      }
+    }
+  }, [loggedUsername]);
 
   // SIDEBAR
   return (
@@ -434,6 +451,7 @@ export function SidebarResponsive(props) {
   // SIDEBAR
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
+
   // Color variables
   return (
     <Flex

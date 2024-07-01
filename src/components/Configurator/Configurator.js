@@ -82,7 +82,7 @@ export default function Configurator(props) {
                     Navbar Fixed
                   </Text>
                   <Switch
-                    colorScheme='brand'
+                    colorscheme='brand'
                     isChecked={switched}
                     onChange={(event) => {
                       if (switched === true) {
@@ -150,7 +150,7 @@ export default function Configurator(props) {
                         isExternal='true'
                         href='https://twitter.com/intent/tweet?url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fvision-ui-dashboard-chakra&text=Check%20vision%20UI%20Dashboard%20made%20by%20%40CreativeTim%20and%20%40simmmple_web%20%23webdesign%20%23dashboard%20%23chakra'>
                         <Button
-                          colorScheme='twitter'
+                          colorscheme='twitter'
                           leftIcon={<FaTwitter />}
                           me='10px'>
                           <Text>Tweet</Text>
@@ -160,7 +160,7 @@ export default function Configurator(props) {
                         isExternal='true'
                         href='https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fvision-ui-dashboard-chakra'>
                         <Button
-                          colorScheme='facebook'
+                          colorscheme='facebook'
                           leftIcon={<FaFacebook />}>
                           <Text>Share</Text>
                         </Button>
