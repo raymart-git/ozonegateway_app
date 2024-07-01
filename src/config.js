@@ -3,7 +3,7 @@ const devConfig = {
   };
   
 const prodConfig = {
-    API_URL: 'http://localhost:3000/'
+    API_URL: 'https://ozonegateway-api.vercel.app/'
 };
   
 const config = process.env.NODE_ENV === 'production' ? prodConfig : devConfig;

@@ -16,8 +16,10 @@
 
 */
 
-import { useState, React} from "react";
+import { useState, useEffect, React} from "react";
 import loginService from '../../service/api/login.service';
+import siteService from '../../service/api/site.service';
+import Dropdown from "components/DropDown/LoginDropDown";
 
 // Chakra imports
 import {
@@ -49,7 +51,25 @@ function SignUp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [registerMsg, setRegisterMsg] = useState('');
+
+  const [sites, setSites] = useState([]);
+  const [siteSelectedValue, setSiteSelectedValue] = useState('');
   
+  useEffect(() => {
+
+    const getSites = async () => {
+      try {
+        const sitesData = await siteService.sites();
+        setSites(sitesData.data);
+      } catch (error) {
+        console.error('Error fetching sites:', error);
+      }
+    };
+
+    getSites();
+
+  }, []);
+
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -60,15 +80,21 @@ function SignUp() {
 
   const handleRegistration = async () => {
     try {
-      const response = await loginService.register(username, password);
+      const response = await loginService.register(username, password, siteSelectedValue);
       console.log('Registration Successfully:', response.data);
+      
       setRegisterMsg('Registration Successfully');
+      window.location.href = "/#/auth/signin"; // redirect to login page when registration is successful
+
     } catch (error) {
       console.error('Register error:', error);
       setRegisterMsg('Registration Failed');
     }
   };
 
+  const handleSiteChange = (event) => {
+    setSiteSelectedValue(event.target.value);
+  };
 
   const titleColor = "white";
   const textColor = "gray.400";
@@ -214,6 +240,27 @@ function SignUp() {
                 or
               </Text>
               <FormControl>
+              <FormLabel
+                ms='4px'
+                fontSize='sm'
+                fontWeight='normal'
+                color='white'>
+                Site
+              </FormLabel>
+                <GradientBorder
+                  mb='24px'
+                  w={{ base: "100%", lg: "fit-content" }}
+                  borderRadius='10px'>
+                  <Dropdown
+                    // label="Select an Option"
+                    options={sites.map(site => ({ label: site.sitename, value: site.id }))}
+                    value={siteSelectedValue}
+                    onChange={handleSiteChange}
+                    placeholder="Select Site"
+                  />
+                </GradientBorder>
+              </FormControl>
+              <FormControl>
                 <FormLabel
                   color={titleColor}
                   ms='4px'
@@ -275,7 +322,7 @@ function SignUp() {
                 </GradientBorder>
                 <FormControl display='flex' alignItems='center' mb='24px'>
                   <DarkMode>
-                    <Switch id='remember-login' colorScheme='brand' me='10px' />
+                    <Switch id='remember-login' colorscheme='brand' me='10px' />
                   </DarkMode>
 
                   <FormLabel

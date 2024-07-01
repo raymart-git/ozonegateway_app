@@ -24,6 +24,7 @@ import RTLPage from "views/RTL/RTLPage.js";
 import Profile from "views/Dashboard/Profile.js";
 import SignIn from "views/Pages/SignIn.js";
 import SignUp from "views/Pages/SignUp.js";
+import SignOut from "views/Pages/SignOut.js";
 
 import {
   HomeIcon,
@@ -34,6 +35,7 @@ import {
   RocketIcon,
   SupportIcon,
 } from "components/Icons/Icons";
+import { SettingsIcon } from "@chakra-ui/icons";
 
 var dashRoutes = [
   {
@@ -60,13 +62,21 @@ var dashRoutes = [
     component: Billing,
     layout: "/admin",
   },
+  // {
+  //   path: "/rtl-support-page",
+  //   name: "RTL",
+  //   rtlName: "آرتيإل",
+  //   icon: <SupportIcon color='inherit' />,
+  //   component: RTLPage,
+  //   layout: "/rtl",
+  // },
   {
-    path: "/rtl-support-page",
-    name: "RTL",
-    rtlName: "آرتيإل",
-    icon: <SupportIcon color='inherit' />,
-    component: RTLPage,
-    layout: "/rtl",
+    path: "/admin",
+    name: "Admin Panel",
+    rtlName: "لوحة القيادة",
+    icon: <SettingsIcon color='inherit' />,
+    component: null,
+    layout: "/admin",
   },
   {
     name: "ACCOUNT PAGES",
@@ -92,6 +102,14 @@ var dashRoutes = [
         layout: "/auth",
       },
       {
+        path: "/signout",
+        name: "Sign Out",
+        rtlName: "لوحة القيادة",
+        icon: <DocumentIcon color='inherit' />,
+        component: SignOut,
+        layout: "/auth",
+      },
+      {
         path: "/signup",
         name: "Sign Up",
         rtlName: "لوحة القيادة",
@@ -103,4 +121,5 @@ var dashRoutes = [
     ],
   },
 ];
+
 export default dashRoutes;

@@ -24,7 +24,7 @@ import { ProfileIcon, SettingsIcon } from "components/Icons/Icons";
 import { ItemContent } from "components/Menu/ItemContent";
 import { SidebarResponsive } from "components/Sidebar/Sidebar";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { useState, useEffect } from 'react';
 import { NavLink } from "react-router-dom";
 import routes from "routes.js";
 
@@ -42,6 +42,15 @@ export default function HeaderLinks(props) {
     mainText = "white";
   }
   const settingsRef = React.useRef();
+
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const loggedUserData = sessionStorage.getItem('loggedUser');
+    const loggedUser = loggedUserData ? JSON.parse(sessionStorage.getItem('loggedUser')) : null;
+    setUsername(loggedUser ? loggedUser.username : '');
+  }, []);
+
   return (
     <Flex
       pe={{ sm: "0px", md: "16px" }}
@@ -85,6 +94,8 @@ export default function HeaderLinks(props) {
           borderRadius='inherit'
         />
       </InputGroup>
+    {
+      (!username) ?
       <NavLink to='/auth/signin'>
         <Button
           ms='0px'
@@ -109,6 +120,10 @@ export default function HeaderLinks(props) {
           <Text display={{ sm: "none", md: "flex" }}>Sign In</Text>
         </Button>
       </NavLink>
+      :
+      <Text display={{ sm: "none", md: "flex" }} sx={{ color: 'white' }}>Welcome {username} !</Text>
+
+    }
       <SidebarResponsive
         iconColor='gray.500'
         logoText={props.logoText}
